@@ -22,7 +22,7 @@ public class MapEditorScreen implements Screen {
         FileHandle file = Gdx.files.local("map.txt");
         file.writeBytes(new byte[] { 10,10}, false);
         for(int i=0; i<100; i++){
-        	file.writeBytes(i%2, true);
+        	file.writeBytes(new byte[] {(byte) (i%2)}, true);
         	
         }
     }

@@ -17,7 +17,7 @@ public class Location {
     Texture tileset;
     TextureRegion[] region;
 	
-	public Location(){
+	public Location(Texture tex){
 
 ;
 		
@@ -49,7 +49,7 @@ public class Location {
 		
 		
 		
-        tileset = new Texture(Gdx.files.internal("Tiles.png"));
+        tileset = tex;//new Texture(Gdx.files.internal("Tiles.png"));
         region = new TextureRegion[5];
         
         for(int i =0; i<5; i++){
