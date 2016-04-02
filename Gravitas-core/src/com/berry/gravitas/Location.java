@@ -17,7 +17,7 @@ public class Location {
     Texture tileset;
     TextureRegion[] region;
 	
-	public Location(Texture tex){
+	public Location(){
 
 ;
 		
@@ -35,9 +35,9 @@ public class Location {
 			this.tiles = new int[width*height*5];
 			
 			while ((i = text.read()) != -1){
-			       //if (i!='\n'){
+			       
 			    	   tiles[j]=i;
-			       //}
+			       j++;
 			    }
 			
 			text.close();
@@ -49,7 +49,7 @@ public class Location {
 		
 		
 		
-        tileset = tex;//new Texture(Gdx.files.internal("Tiles.png"));
+        tileset = new Texture(Gdx.files.internal("Tiles.png"));
         region = new TextureRegion[5];
         
         for(int i =0; i<5; i++){

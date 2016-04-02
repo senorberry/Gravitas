@@ -45,7 +45,7 @@ public class GameScreen implements Screen{
        // Gdx.input.setInputProcessor(this);
         
         player = new Entity();
-        loc = new Location(new Texture(Gdx.files.internal("Tiles.png")));
+        loc = new Location();
         
         // load the images for the droplet and the bucket, 64x64 pixels each
        // dropImage = new Texture(Gdx.files.internal("droplet.png"));
