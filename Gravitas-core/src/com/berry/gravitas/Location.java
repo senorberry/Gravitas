@@ -21,24 +21,26 @@ public class Location {
 
 ;
 		
-		FileHandle file = Gdx.files.internal("map.txt");
-		InputStream text = file.read();
+
 		try {
+			
+			FileHandle file = Gdx.files.local("map.txt");
+			InputStream text = file.read();
 			int i,j;
 			j=0;
 			this.height=text.read();
-			text.read();
+			//text.read();
 			this.width=text.read();
-			text.read();
+			//text.read();
 			this.tiles = new int[width*height*5];
 			
 			while ((i = text.read()) != -1){
-			       if (i!='\n'){
+			       //if (i!='\n'){
 			    	   tiles[j]=i;
-			       }
+			       //}
 			    }
-			text.close();
 			
+			text.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

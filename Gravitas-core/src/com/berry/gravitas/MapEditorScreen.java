@@ -1,26 +1,27 @@
 package com.berry.gravitas;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public class MainMenuScreen implements Screen {
+public class MapEditorScreen implements Screen {
 
-    final GravitasGame game;
+	
+
 
     OrthographicCamera camera;
 
-    public MainMenuScreen(final GravitasGame gam) {
-        game = gam;
-
+    public MapEditorScreen(){
+    	
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-
+    	
+        FileHandle file = Gdx.files.local("map.txt");
+        file.writeBytes(new byte[] { 2, 2, 1, 1 ,2, 2}, false);
     }
-
+    
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
@@ -29,25 +30,9 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, /*0.2f*/0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-        game.batch.setProjectionMatrix(camera.combined);
-
-        game.batch.begin();
-        
-        game.font.draw(game.batch, "Tap anywhere to begin!", 10, 10);
-        game.batch.end();
-
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }
-        if (Gdx.input.isKeyPressed(Keys.M)) {
-            game.setScreen(new MapEditorScreen());
-            dispose();
-        }
+        if (Gdx.input.isKeyPressed(Keys.Q))
+        	Gdx.app.exit();
+		
 	}
 
 	@Override
@@ -79,5 +64,5 @@ public class MainMenuScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-    
+
 }
