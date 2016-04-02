@@ -37,7 +37,7 @@ public class MainMenuScreen implements Screen {
 
         game.batch.begin();
         
-        game.font.draw(game.batch, "Tap anywhere to begin!", 10, 10);
+        game.font.draw(game.batch, "Tap anywhere to begin!\nPress M to enter map editor", 200, 10);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
