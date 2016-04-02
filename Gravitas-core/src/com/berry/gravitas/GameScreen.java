@@ -45,10 +45,9 @@ public class GameScreen implements Screen{
        // Gdx.input.setInputProcessor(this);
         
         player = new Entity();
-        loc = new Location();
+        loc = new Location("map.txt");
         
-        // load the images for the droplet and the bucket, 64x64 pixels each
-       // dropImage = new Texture(Gdx.files.internal("droplet.png"));
+        // load the images 
         playerSprite = new Texture(Gdx.files.internal("Character.png"));
 
 
@@ -88,8 +87,7 @@ public class GameScreen implements Screen{
         // coordinate system specified by the camera.
         game.batch.setProjectionMatrix(camera.combined);
 
-        // begin a new batch and draw the bucket and
-        // all drops
+        // begin a new batch 
         game.batch.begin();
         
         for(int i =0; i<20;i++){
@@ -151,14 +149,7 @@ public class GameScreen implements Screen{
 
     }
 
-    
-    
    
-  
-
-
-
-
 
 
 }

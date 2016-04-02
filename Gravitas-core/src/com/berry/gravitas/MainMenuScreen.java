@@ -45,7 +45,7 @@ public class MainMenuScreen implements Screen {
             dispose();
         }
         if (Gdx.input.isKeyPressed(Keys.M)) {
-            game.setScreen(new MapEditorScreen());
+            game.setScreen(new MapEditorScreen(game));
             dispose();
         }
         if (Gdx.input.isKeyPressed(Keys.Q)) {

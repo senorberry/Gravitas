@@ -17,14 +17,14 @@ public class Location {
     Texture tileset;
     TextureRegion[] region;
 	
-	public Location(){
+	public Location(String fileName){
 
-;
+
 		
 
 		try {
 			
-			FileHandle file = Gdx.files.local("map.txt");
+			FileHandle file = Gdx.files.local(fileName);
 			InputStream text = file.read();
 			int i,j;
 			j=0;
@@ -58,6 +58,27 @@ public class Location {
 		
 		
 
+		
+	}
+	
+	public Location(int x, int y){
+
+		this.height=y;
+		this.width=x;
+		tiles=new int[width*height*5];
+		
+			
+			
+			
+			
+			
+	        tileset = new Texture(Gdx.files.internal("Tiles.png"));
+	        region = new TextureRegion[5];
+	        
+	        for(int i =0; i<5; i++){
+	        	region[i] = new TextureRegion(tileset, 5*i, 0, 5, 5);
+	        }
+			
 		
 	}
 	
