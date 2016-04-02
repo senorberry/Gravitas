@@ -48,6 +48,9 @@ public class MainMenuScreen implements Screen {
             game.setScreen(new MapEditorScreen());
             dispose();
         }
+        if (Gdx.input.isKeyPressed(Keys.Q)) {
+        	Gdx.app.exit();
+        }
 	}
 
 	@Override

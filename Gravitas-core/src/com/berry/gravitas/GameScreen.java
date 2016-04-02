@@ -116,7 +116,7 @@ public class GameScreen implements Screen{
         player.update();
         if (Gdx.input.isKeyPressed(Keys.Q))
         	Gdx.app.exit();
-        // make sure the bucket stays within the screen bounds
+      
 
   
     }

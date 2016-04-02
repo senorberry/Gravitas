@@ -12,14 +12,19 @@ public class MapEditorScreen implements Screen {
 
 
     OrthographicCamera camera;
-
+    
+    
     public MapEditorScreen(){
     	
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
     	
         FileHandle file = Gdx.files.local("map.txt");
-        file.writeBytes(new byte[] { 2, 2, 1, 1 ,2, 2}, false);
+        file.writeBytes(new byte[] { 10,10}, false);
+        for(int i=0; i<100; i++){
+        	file.writeBytes(i%2, true);
+        	
+        }
     }
     
 	@Override
