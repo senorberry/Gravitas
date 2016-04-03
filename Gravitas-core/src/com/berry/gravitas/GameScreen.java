@@ -30,7 +30,7 @@ public class GameScreen implements Screen{
     OrthographicCamera camera;
     
    
-
+    private long diff, start = System.currentTimeMillis();
     
     Entity player;
     Location loc;
@@ -44,9 +44,9 @@ public class GameScreen implements Screen{
         this.game = gam;
        // Gdx.input.setInputProcessor(this);
         
-        player = new Entity();
-        loc = new Location("map.txt");
         
+        loc = new Location("map.txt");
+        player = new Entity(new Vector2(140,140),loc);
         // load the images 
         playerSprite = new Texture(Gdx.files.internal("Character.png"));
 
@@ -100,7 +100,7 @@ public class GameScreen implements Screen{
         	
         }
         
-        game.batch.draw(playerSprite, player.pos.x*40, player.pos.y*24, 25, 25);
+        game.batch.draw(playerSprite, player.pos.x*4, player.pos.y*(int)(24/10), 25, 25);
 
         game.batch.end();
 
@@ -115,7 +115,15 @@ public class GameScreen implements Screen{
         if (Gdx.input.isKeyPressed(Keys.Q))
         	Gdx.app.exit();
       
-
+        //limit 30 fps
+        diff = System.currentTimeMillis() - start;
+        long targetDelay = 1000/30;
+        if (diff < targetDelay) {
+          try{
+              Thread.sleep(targetDelay - diff);
+            } catch (InterruptedException e) {}
+          }   
+        start = System.currentTimeMillis();
   
     }
 

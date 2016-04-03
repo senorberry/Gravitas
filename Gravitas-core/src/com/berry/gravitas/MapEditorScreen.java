@@ -16,11 +16,12 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MapEditorScreen implements Screen {
 
-	
+	private long diff, start = System.currentTimeMillis();
 	final GravitasGame game;
 
     OrthographicCamera camera;
     Location loc;
+    FileHandle file;
     
     public MapEditorScreen(final GravitasGame gam){
     	this.game = gam;
@@ -30,12 +31,9 @@ public class MapEditorScreen implements Screen {
     	
         loc = new Location(20,20);
         
-        FileHandle file = Gdx.files.local("map.txt");
-        file.writeBytes(new byte[] { 10,10}, false);
-        for(int i=0; i<100; i++){
-        	file.writeBytes(new byte[] {(byte) (i%2)}, true);
-        	
-        }
+        file = Gdx.files.local("map.txt");
+        file.writeBytes(new byte[] { 20,20}, false);
+
     }
     
 	@Override
@@ -73,9 +71,16 @@ public class MapEditorScreen implements Screen {
         game.batch.end();
         
         //quit
-        if (Gdx.input.isKeyPressed(Keys.Q))
+        if (Gdx.input.isKeyPressed(Keys.Q)){
+            for(int i=0; i<20; i++){
+            	for(int j =0; j<20; j++){
+            	file.writeBytes(new byte[] {(byte) (loc.getTile(i,j,0))}, true);
+            	}
+            }
+        	
         	Gdx.app.exit();
-        
+        }
+	
         //edit tile
         if (Gdx.input.justTouched()) {
             Vector2 touchPos = new Vector2();
@@ -86,7 +91,19 @@ public class MapEditorScreen implements Screen {
             loc.tiles[t]++;}
             else{loc.tiles[t]=0;}
         }
-		
+	
+        //limit 30 fps
+        diff = System.currentTimeMillis() - start;
+        long targetDelay = 1000/30;
+        if (diff < targetDelay) {
+          try{
+              Thread.sleep(targetDelay - diff);
+            } catch (InterruptedException e) {}
+          }   
+        start = System.currentTimeMillis();
+        
+        
+        
 	}
 
 	@Override

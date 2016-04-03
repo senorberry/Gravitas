@@ -8,24 +8,17 @@ import com.badlogic.gdx.math.Vector2;
 public class Entity {
 
 	public Vector2 pos;
-	
+	protected Location loc;
 
 
-	public Entity(){
-		this.pos= new Vector2(5,5);
-		
+	public Entity(Vector2 v,Location l){
+		this.pos= v;
+		this.loc = l;
 	}
 	
 	public void update(){
-        if (Gdx.input.isKeyPressed(Keys.LEFT))
-            pos.x -= 10 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Keys.RIGHT))
-            pos.x += 10 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Keys.UP))
-            pos.y += 10 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Keys.DOWN))
-            pos.y -= 10 * Gdx.graphics.getDeltaTime();
-		
+		Action a = new Movement(this, new Vector2(pos.x,pos.y-1), loc );
+		a.perform();
 		
 	}
 	
