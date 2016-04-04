@@ -92,6 +92,7 @@ public class GameScreen implements Screen{
 
         camPos=player.pos;
         // begin a new batch 
+        game.batch.enableBlending();
         game.batch.begin();
         
         for(int i =0; i<zoom;i++){
