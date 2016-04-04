@@ -39,6 +39,9 @@ public class GameScreen implements Screen{
     long lastDropTime;
     int dropsGathered;
     Vector2 camPos;
+    final int width =800;
+    final int height=480;
+    final int zoom=20;
 
     public GameScreen(final GravitasGame gam) {
         this.game = gam;
@@ -46,7 +49,7 @@ public class GameScreen implements Screen{
         
         
         loc = new Location("map.txt");
-        player = new Entity(new Vector2(140,140),loc);
+        player = new PlayerEntity(new Vector2(140,140),loc);
         // load the images 
         playerSprite = new Texture(Gdx.files.internal("Character.png"));
 
@@ -59,9 +62,9 @@ public class GameScreen implements Screen{
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, width, height);
 
-
+        camPos=player.pos;
 
         // create the raindrops array and spawn the first raindrop
        // raindrops = new Array<Rectangle>();
@@ -87,37 +90,65 @@ public class GameScreen implements Screen{
         // coordinate system specified by the camera.
         game.batch.setProjectionMatrix(camera.combined);
 
+        camPos=player.pos;
         // begin a new batch 
         game.batch.begin();
         
-        for(int i =0; i<20;i++){
-        	for(int j=0; j<20;j++){
+        for(int i =0; i<zoom;i++){
+        	for(int j=0; j<zoom;j++){
         		
-        	  game.batch.draw(loc.getTexture(i, j, 0), i*40, j*24,40,24);
+        	  game.batch.draw(loc.getTexture(i+(int)camPos.x/10-zoom/2, j+(int)camPos.y/10-zoom/2, 0), 
+        			  (i)*(width/zoom)-(width/zoom)*(camPos.x%10)/10,
+        			  (j)*(height/zoom)-(height/zoom)*(camPos.y%10)/10,
+        			  width/zoom,height/zoom);
 
         			
         	}
         	
         }
         
-        game.batch.draw(playerSprite, player.pos.x*4, player.pos.y*(int)(24/10), 25, 25);
+        game.batch.draw(playerSprite, /* player.pos.x*4, player.pos.y*(int)(24/10)*/
+        		width/2,height/2, 25, 25);
 
         game.batch.end();
 
-        // process user input
+        // process user input 
         if (Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(touchPos);
+            //camera.unproject(touchPos);
+          
 
         }
         player.update();
+        
         if (Gdx.input.isKeyPressed(Keys.Q))
         	Gdx.app.exit();
-      
+        if (Gdx.input.isKeyPressed(Keys.LEFT)){
+           // player.pos.x -= 1;//10 * Gdx.graphics.getDeltaTime();
+		Action a = new Movement(player, new Vector2(player.pos.x-1,
+				player.pos.y), loc );
+		a.perform();}
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)){
+    		Action a = new Movement(player, new Vector2(player.pos.x+1,
+    				player.pos.y), loc );
+    		a.perform();}
+        if (Gdx.input.isKeyPressed(Keys.UP)){
+          //  player.pos.y += 1;//10 * Gdx.graphics.getDeltaTime();
+       		Action a = new Movement(player, new Vector2(player.pos.x,
+    				player.pos.y+1), loc );
+    		a.perform();
+        }
+        if (Gdx.input.isKeyPressed(Keys.DOWN)){
+       		Action a = new Movement(player, new Vector2(player.pos.x,
+    				player.pos.y-1), loc );
+    		a.perform();
+            //player.pos.y -= 1;//10 * Gdx.graphics.getDeltaTime();
+            
+        }
         //limit 30 fps
         diff = System.currentTimeMillis() - start;
-        long targetDelay = 1000/30;
+        long targetDelay = 1000/60;
         if (diff < targetDelay) {
           try{
               Thread.sleep(targetDelay - diff);
@@ -129,6 +160,10 @@ public class GameScreen implements Screen{
 
     @Override
     public void resize(int width, int height) {
+        //camera.viewportWidth = 800f;                 // Viewport of 30 units!
+        //camera.viewportHeight = 480f * height/width; // Lets keep things in proportion.
+       // camera.update();
+
     }
 
     @Override

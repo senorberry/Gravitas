@@ -92,8 +92,9 @@ public class Location {
 	}
 	
 	public TextureRegion getTexture(int i, int j, int k){
-		
-		return region[tiles[i+j*width+k*height*width]];
+		if(i+j*width+k*height*width<width*height*5 && i+j*width+k*height*width>=0){
+		return region[tiles[i+j*width+k*height*width]];}
+		else {return region[0];}
 	}
 	
 	
