@@ -17,7 +17,7 @@ public class Movement extends Action {
 	@Override
 	boolean perform() {
 		//can action be performed
-		if(loc.getTile((int)endLoc.x/10, (int)endLoc.y/10, 0)!= 0
+		if(loc.getTile((int)endLoc.x/10, (int)endLoc.y/10, 0)> 0
 				&& loc.getTile((int)endLoc.x/10, (int)endLoc.y/10, 0)!= 5)
 		{
 			this.performer.pos=endLoc;

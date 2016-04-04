@@ -36,8 +36,7 @@ public class GameScreen implements Screen{
     Location loc;
     
     
-    long lastDropTime;
-    int dropsGathered;
+
     Vector2 camPos;
     final int width =800;
     final int height=480;
@@ -49,7 +48,7 @@ public class GameScreen implements Screen{
         
         
         loc = new Location("map.txt");
-        player = new PlayerEntity(new Vector2(140,140),loc);
+        player = new PlayerEntity(new Vector2(80,60),loc);
         // load the images 
         playerSprite = new Texture(Gdx.files.internal("Character.png"));
 
@@ -90,13 +89,16 @@ public class GameScreen implements Screen{
         // coordinate system specified by the camera.
         game.batch.setProjectionMatrix(camera.combined);
 
+
         camPos=player.pos;
         // begin a new batch 
         game.batch.enableBlending();
         game.batch.begin();
         
-        for(int i =0; i<zoom;i++){
-        	for(int j=0; j<zoom;j++){
+        //draw tiles
+        
+        for(int i =0; i<zoom+1;i++){
+        	for(int j=0; j<zoom+1;j++){
         		
         	  game.batch.draw(loc.getTexture(i+(int)camPos.x/10-zoom/2, j+(int)camPos.y/10-zoom/2, 0), 
         			  (i)*(width/zoom)-(width/zoom)*(camPos.x%10)/10,
@@ -107,46 +109,28 @@ public class GameScreen implements Screen{
         	}
         	
         }
-        
+        //draw player
         game.batch.draw(playerSprite, /* player.pos.x*4, player.pos.y*(int)(24/10)*/
         		width/2,height/2, 25, 25);
-
-        game.batch.end();
-
-        // process user input 
+        
+        //on click, open context menu
         if (Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             //camera.unproject(touchPos);
-          
+            game.font.draw(game.batch, "Menu",
+            		touchPos.x, height-touchPos.y);
 
         }
+        game.batch.end();
+
+        // process user input 
+
         player.update();
         
         if (Gdx.input.isKeyPressed(Keys.Q))
         	Gdx.app.exit();
-        if (Gdx.input.isKeyPressed(Keys.LEFT)){
-           // player.pos.x -= 1;//10 * Gdx.graphics.getDeltaTime();
-		Action a = new Movement(player, new Vector2(player.pos.x-1,
-				player.pos.y), loc );
-		a.perform();}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)){
-    		Action a = new Movement(player, new Vector2(player.pos.x+1,
-    				player.pos.y), loc );
-    		a.perform();}
-        if (Gdx.input.isKeyPressed(Keys.UP)){
-          //  player.pos.y += 1;//10 * Gdx.graphics.getDeltaTime();
-       		Action a = new Movement(player, new Vector2(player.pos.x,
-    				player.pos.y+1), loc );
-    		a.perform();
-        }
-        if (Gdx.input.isKeyPressed(Keys.DOWN)){
-       		Action a = new Movement(player, new Vector2(player.pos.x,
-    				player.pos.y-1), loc );
-    		a.perform();
-            //player.pos.y -= 1;//10 * Gdx.graphics.getDeltaTime();
-            
-        }
+        
         //limit 30 fps
         diff = System.currentTimeMillis() - start;
         long targetDelay = 1000/60;

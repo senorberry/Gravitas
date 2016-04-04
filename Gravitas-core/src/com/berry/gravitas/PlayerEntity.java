@@ -13,15 +13,28 @@ public class PlayerEntity extends Entity {
 
 	@Override
 	public void update(){
-        /*if (Gdx.input.isKeyPressed(Keys.LEFT))
-            pos.x -= 1;//10 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Keys.RIGHT))
-            pos.x += 1;//10 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Keys.UP))
-            pos.y += 1;//10 * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Keys.DOWN))
-            pos.y -= 1;//10 * Gdx.graphics.getDeltaTime();
-        */
+		if (Gdx.input.isKeyPressed(Keys.LEFT)){
+	           
+			Action a = new Movement(this, new Vector2(this.pos.x-1,
+					this.pos.y), loc );
+			a.perform();}
+			if (Gdx.input.isKeyPressed(Keys.RIGHT)){
+	    		Action a = new Movement(this, new Vector2(this.pos.x+1,
+	    				this.pos.y), loc );
+	    		a.perform();}
+	        if (Gdx.input.isKeyPressed(Keys.UP)){
+	          
+	       		Action a = new Movement(this, new Vector2(this.pos.x,
+	    				this.pos.y+1), loc );
+	    		a.perform();
+	        }
+	        if (Gdx.input.isKeyPressed(Keys.DOWN)){
+	       		Action a = new Movement(this, new Vector2(this.pos.x,
+	    				this.pos.y-1), loc );
+	    		a.perform();
+	            
+	            
+	        }
 	}
 
 }

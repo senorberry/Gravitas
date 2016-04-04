@@ -23,17 +23,24 @@ public class MapEditorScreen implements Screen {
     Location loc;
     FileHandle file;
     
+    Vector2 camPos;
+    final int width =800;
+    final int height=480;
+    final int zoom=20;
+    
     public MapEditorScreen(final GravitasGame gam){
     	this.game = gam;
     	
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
     	
-        loc = new Location(20,20);
+        loc = new Location(40,40);
         
         file = Gdx.files.local("map.txt");
         file.writeBytes(new byte[] { 20,20}, false);
 
+        camPos= new Vector2(0,0);
+        
     }
     
 	@Override
@@ -57,10 +64,13 @@ public class MapEditorScreen implements Screen {
         // begin a new batch
         game.batch.begin();
         
-        for(int i =0; i<20;i++){
-        	for(int j=0; j<20;j++){
+        for(int i =0; i<zoom+1;i++){
+        	for(int j=0; j<zoom+1;j++){
         		
-        	  game.batch.draw(loc.getTexture(i, j, 0), i*40, j*24,40,24);
+        	  game.batch.draw(loc.getTexture(i+(int)camPos.x/10-zoom/2, j+(int)camPos.y/10-zoom/2, 0), 
+        			  (i)*(width/zoom)-(width/zoom)*(camPos.x%10)/10,
+        			  (j)*(height/zoom)-(height/zoom)*(camPos.y%10)/10,
+        			  width/zoom,height/zoom);
 
         			
         	}
@@ -91,6 +101,20 @@ public class MapEditorScreen implements Screen {
             loc.tiles[t]++;}
             else{loc.tiles[t]=0;}
         }
+        
+        if (Gdx.input.isKeyPressed(Keys.LEFT)){
+        	camPos.x-=1;
+        }
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)){
+        	camPos.x+=1;
+        }
+        if (Gdx.input.isKeyPressed(Keys.DOWN)){
+        	camPos.y+=1;
+        }
+        if (Gdx.input.isKeyPressed(Keys.UP)){
+        	camPos.y-=1;
+        }
+        
 	
         //limit 30 fps
         diff = System.currentTimeMillis() - start;
